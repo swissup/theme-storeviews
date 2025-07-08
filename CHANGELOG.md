@@ -2,6 +2,18 @@
 
 All notable changes to the Swissup Theme Store Views module will be documented in this file.
 
+## [1.0.1] - 2025-01-08
+
+### Fixed
+- Updated composer.json configuration for proper package management
+- Resolved module installation path conflicts
+- Improved documentation and validation scripts
+
+### Added
+- Enhanced package validation script
+- Professional README with badges
+- Complete GitHub integration templates
+
 ## [1.0.0] - 2025-01-08
 
 ### Added
