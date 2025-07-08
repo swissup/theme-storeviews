@@ -163,7 +163,12 @@ class CreateThemeStoreViews extends Command
             // Area code already set
         }
 
-        $output->writeln('<info>Creating store views for Swissup themes...</info>');
+        $output->writeln('');
+        $output->writeln('<fg=cyan>╔══════════════════════════════════════════════════════════════════════════════════════╗</>');
+        $output->writeln('<fg=cyan>║</> <fg=yellow;options=bold>                    🎨 Swissup Theme Store Views Creator                           </> <fg=cyan>║</>');
+        $output->writeln('<fg=cyan>╚══════════════════════════════════════════════════════════════════════════════════════╝</>');
+        $output->writeln('');
+        $output->writeln('<fg=green;options=bold>🚀 Starting theme store views creation process...</>');
 
         // Get default website and store group
         $website = $this->websiteCollectionFactory->create()
@@ -174,15 +179,31 @@ class CreateThemeStoreViews extends Command
             ->addFieldToFilter('website_id', $website->getId())
             ->getFirstItem();
 
+        $output->writeln('<fg=blue>📊 Website:</> <fg=white;options=bold>' . $website->getName() . '</> <fg=gray>(ID: ' . $website->getId() . ')</>');
+        $output->writeln('<fg=blue>🏪 Store Group:</> <fg=white;options=bold>' . $storeGroup->getName() . '</> <fg=gray>(ID: ' . $storeGroup->getId() . ')</>');
+        $output->writeln('');
+        
         // Create progress bar
+        $output->writeln('<fg=magenta;options=bold>📋 Processing ' . count($this->themes) . ' themes...</>');
         $progressBar = new ProgressBar($output, count($this->themes));
+        $progressBar->setFormat('<fg=cyan>%current%/%max%</> [<fg=green>%bar%</>] <fg=yellow>%percent:3s%%</> <fg=white>%message%</>');
+        $progressBar->setMessage('Initializing...');
         $progressBar->start();
 
         $createdStores = 0;
         $skippedStores = 0;
+        $processedThemes = 0;
         $reinstall = $input->getOption('reinstall');
 
         foreach ($this->themes as $themeCode) {
+            $processedThemes++;
+            $progressBar->setMessage(sprintf('Processing: %s (%d/%d) | Created: %d | Skipped: %d', 
+                $themeCode, 
+                $processedThemes, 
+                count($this->themes), 
+                $createdStores, 
+                $skippedStores
+            ));
             $progressBar->advance();
 
             // Generate store view code from theme code
@@ -202,6 +223,13 @@ class CreateThemeStoreViews extends Command
 
             if ($existingStore->getId() && !$reinstall) {
                 $skippedStores++;
+                $progressBar->setMessage(sprintf('Skipped: %s (%d/%d) | Created: %d | Skipped: %d', 
+                    $themeCode, 
+                    $processedThemes, 
+                    count($this->themes), 
+                    $createdStores, 
+                    $skippedStores
+                ));
                 continue;
             }
 
@@ -211,8 +239,17 @@ class CreateThemeStoreViews extends Command
                 ->getFirstItem();
 
             if (!$theme->getId()) {
-                $output->writeln(PHP_EOL . "<warning>Theme '{$themeCode}' not found. Skipping...</warning>");
                 $skippedStores++;
+                $progressBar->clear();
+                $output->writeln('<fg=red;options=bold>⚠️  Theme not found:</> <fg=yellow>' . $themeCode . '</>');
+                $progressBar->setMessage(sprintf('Theme not found: %s (%d/%d) | Created: %d | Skipped: %d', 
+                    $themeCode, 
+                    $processedThemes, 
+                    count($this->themes), 
+                    $createdStores, 
+                    $skippedStores
+                ));
+                $progressBar->display();
                 continue;
             }
 
@@ -228,7 +265,25 @@ class CreateThemeStoreViews extends Command
 
                 $store->save();
                 $createdStores++;
+                
+                $progressBar->clear();
+                $output->writeln('<fg=green;options=bold>✅ Created store view:</> <fg=white>' . $theme->getThemeTitle() . '</> <fg=gray>(' . $storeViewCode . ')</>');
+                $progressBar->setMessage(sprintf('Created: %s (%d/%d) | Created: %d | Skipped: %d', 
+                    $themeCode, 
+                    $processedThemes, 
+                    count($this->themes), 
+                    $createdStores, 
+                    $skippedStores
+                ));
+                $progressBar->display();
             } else {
+                $progressBar->setMessage(sprintf('Updating: %s (%d/%d) | Created: %d | Skipped: %d', 
+                    $themeCode, 
+                    $processedThemes, 
+                    count($this->themes), 
+                    $createdStores, 
+                    $skippedStores
+                ));
                 $store = $existingStore;
             }
 
@@ -241,26 +296,43 @@ class CreateThemeStoreViews extends Command
             );
 
             // Run theme installer if exists
-            $this->runThemeInstaller($theme, $store, $output);
+            $this->runThemeInstaller($theme, $store, $output, $progressBar);
         }
 
         $progressBar->finish();
         $output->writeln(PHP_EOL);
 
-        $output->writeln("<info>Created {$createdStores} store views, skipped {$skippedStores} existing ones.</info>");
+        $output->writeln('');
+        $output->writeln('<fg=cyan>╔═══════════════════════════════════════════════════════════════════════════════╗</>');
+        $output->writeln('<fg=cyan>║</> <fg=white;options=bold>                            📊 SUMMARY REPORT                               </> <fg=cyan>║</>');
+        $output->writeln('<fg=cyan>╠═══════════════════════════════════════════════════════════════════════════════╣</>');
+        $output->writeln('<fg=cyan>║</> <fg=green;options=bold>✅ Created:</> <fg=white;options=bold>' . str_pad($createdStores, 3, ' ', STR_PAD_LEFT) . '</> <fg=gray>store views</> <fg=cyan>                                                 ║</>');
+        $output->writeln('<fg=cyan>║</> <fg=yellow;options=bold>⏭️  Skipped:</> <fg=white;options=bold>' . str_pad($skippedStores, 3, ' ', STR_PAD_LEFT) . '</> <fg=gray>existing ones</> <fg=cyan>                                               ║</>');
+        $output->writeln('<fg=cyan>║</> <fg=blue;options=bold>📋 Total:</> <fg=white;options=bold>' . str_pad(count($this->themes), 5, ' ', STR_PAD_LEFT) . '</> <fg=gray>themes processed</> <fg=cyan>                                            ║</>');
+        $output->writeln('<fg=cyan>╚═══════════════════════════════════════════════════════════════════════════════╝</>');
+        $output->writeln('');
 
         if ($createdStores > 0) {
-            $output->writeln('<info>Running setup:upgrade...</info>');
+            $output->writeln('<fg=blue;options=bold>🔧 Post-processing steps:</> <fg=gray>Running required maintenance tasks...</>');
+            $output->writeln('');
+            
+            $output->writeln('<fg=magenta;options=bold>🚀 Step 1/3:</> <fg=white>Running setup:upgrade...</>');
             $this->runCommand('php -d memory_limit=-1 bin/magento setup:upgrade --safe-mode=1', $output);
 
-            $output->writeln('<info>Running reindex...</info>');
+            $output->writeln('<fg=magenta;options=bold>🔍 Step 2/3:</> <fg=white>Running reindex...</>');
             $this->runCommand('php -d memory_limit=-1 bin/magento indexer:reindex', $output);
 
-            $output->writeln('<info>Clearing cache...</info>');
+            $output->writeln('<fg=magenta;options=bold>🧹 Step 3/3:</> <fg=white>Clearing cache...</>');
             $this->clearCache();
+            $output->writeln('<fg=green;options=bold>✅ Cache cleared successfully!</>');
         }
 
-        $output->writeln('<info>Process completed successfully!</info>');
+        $output->writeln('');
+        $output->writeln('<fg=green;options=bold>🎉 SUCCESS!</> <fg=white;options=bold>Theme store views setup completed successfully!</>');
+        $output->writeln('<fg=cyan>╔═══════════════════════════════════════════════════════════════════════════════╗</>');
+        $output->writeln('<fg=cyan>║</> <fg=white;options=bold>                        🌟 PROCESS COMPLETE 🌟                              </> <fg=cyan>║</>');
+        $output->writeln('<fg=cyan>╚═══════════════════════════════════════════════════════════════════════════════╝</>');
+        $output->writeln('');
 
         return Cli::RETURN_SUCCESS;
     }
@@ -268,7 +340,7 @@ class CreateThemeStoreViews extends Command
     /**
      * Run theme installer if marketplace installer.xml exists
      */
-    private function runThemeInstaller($theme, $store, OutputInterface $output)
+    private function runThemeInstaller($theme, $store, OutputInterface $output, ProgressBar $progressBar)
     {
         $themePath = $theme->getThemePath(); // e.g., "Swissup/argento-stripes"
         
@@ -286,7 +358,9 @@ class CreateThemeStoreViews extends Command
         }
         
         if ($installerPath) {
-            $output->writeln("<info>Found installer for theme '{$theme->getThemeTitle()}', running installation...</info>");
+            $progressBar->clear();
+            $output->writeln('<fg=blue;options=bold>🔧 Found installer for theme:</> <fg=white>' . $theme->getThemeTitle() . '</>');
+            $progressBar->display();
             
             // Get theme package name from installer.xml
             $xml = simplexml_load_file($installerPath);
@@ -295,7 +369,10 @@ class CreateThemeStoreViews extends Command
                     $packageName = (string)$package;
                     if (strpos($packageName, 'theme-frontend-') !== false) {
                         $storeId = $store->getId();
+                        $progressBar->clear();
+                        $output->writeln('<fg=cyan>📦 Installing package:</> <fg=yellow>' . $packageName . '</>');
                         $this->runCommand("php bin/magento marketplace:package:install {$packageName} --store={$storeId} --no-interaction", $output);
+                        $progressBar->display();
                         break;
                     }
                 }
@@ -308,18 +385,19 @@ class CreateThemeStoreViews extends Command
      */
     private function runCommand($command, OutputInterface $output)
     {
-        $output->writeln("<comment>Running: {$command}</comment>");
+        $output->writeln('<fg=gray>💻 Executing:</> <fg=white>' . $command . '</>');
         
         $process = popen($command, 'r');
         if ($process) {
             while (!feof($process)) {
                 $line = fgets($process);
                 if ($line) {
-                    $output->write($line);
+                    $output->write('<fg=cyan>' . rtrim($line) . '</>' . PHP_EOL);
                 }
             }
             pclose($process);
         }
+        $output->writeln('<fg=green;options=bold>✅ Command completed!</>');
     }
 
     /**
