@@ -153,6 +153,16 @@ The module automatically detects and processes these Swissup themes:
 - Error handling and validation
 - Progress bars and status updates
 
+### 🎨 Enhanced CLI Experience (v1.0.2+)
+- **Professional Output**: Colorful, styled headers with box borders
+- **Real-time Progress**: Live progress bar showing current theme and statistics
+- **Color-coded Status**: Green for success, yellow for warnings, red for errors
+- **Live Statistics**: Current counts of created and skipped stores
+- **Professional Summary**: Detailed completion report with statistics
+- **Step-by-step Feedback**: Clear indicators for each post-processing step
+- **Enhanced Error Messages**: Clear, colorful error reporting
+- **Emoji Indicators**: Visual cues for different types of operations
+
 ## 🔍 How It Works
 
 1. **Discovery**: Scans for installed Swissup themes
@@ -213,27 +223,50 @@ chmod -R 755 pub/media/
 ## 📊 Output Example
 
 ```
-Creating store views for Swissup themes...
-  0/18 [>---------------------------]   0%
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║                    🎨 Swissup Theme Store Views Creator                           ║
+╚══════════════════════════════════════════════════════════════════════════════════════╝
 
-Found installer for theme 'Absolute', running installation...
-Running: php bin/magento marketplace:package:install swissup/theme-frontend-absolute --store=2 --no-interaction
-[notice] Processing swissup/theme-frontend-absolute
+🚀 Starting theme store views creation process...
+📊 Website: Main Website (ID: 1)
+🏪 Store Group: Main Website Store (ID: 1)
+
+📋 Processing 18 themes...
+10/18 [===============>------------]  55% Processing: Swissup/argento-pure2 (10/18) | Created: 8 | Skipped: 2
+
+🔧 Found installer for theme: Argento Pure2
+📦 Installing package: swissup/theme-frontend-argento-pure2
+💻 Executing: php bin/magento marketplace:package:install swissup/theme-frontend-argento-pure2 --store=27 --no-interaction
+[notice] Processing swissup/theme-frontend-argento-pure2
 [info] Config: Update store parameters
 [info] Cms Pages: Backup existing pages
 [info] CMS PAGES: Create new pages
 [info] Cms Blocks: Backup existing and create new blocks
-[info] Product Attributes: Update attributes
-[info] Resources: Copy media files
-Done.
+✅ Command completed!
 
- 18/18 [============================] 100%
+✅ Created store view: Argento Pure2 (argento_pure2)
 
-Created 18 store views, skipped 0 existing ones.
-Running setup:upgrade...
-Running reindex...
-Clearing cache...
-Process completed successfully!
+18/18 [============================] 100% Complete (18/18) | Created: 16 | Skipped: 2
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                            📊 SUMMARY REPORT                               ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ ✅ Created:  16 store views                                                  ║
+║ ⏭️  Skipped:   2 existing ones                                               ║
+║ 📋 Total:    18 themes processed                                            ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+🔧 Post-processing steps: Running required maintenance tasks...
+
+🚀 Step 1/3: Running setup:upgrade...
+🔍 Step 2/3: Running reindex...
+🧹 Step 3/3: Clearing cache...
+✅ Cache cleared successfully!
+
+🎉 SUCCESS! Theme store views setup completed successfully!
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                        🌟 PROCESS COMPLETE 🌟                              ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
 ## 🔗 Related Commands
@@ -267,6 +300,6 @@ For issues related to:
 
 ---
 
-**Version**: 1.0.0  
+**Version**: 1.0.2  
 **Compatible**: Magento 2.4.x  
 **Created**: 2025

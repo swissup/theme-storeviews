@@ -2,6 +2,25 @@
 
 All notable changes to the Swissup Theme Store Views module will be documented in this file.
 
+## [1.0.2] - 2025-01-08
+
+### Enhanced
+- **🎨 CLI Output**: Complete visual overhaul with colorful, professional output
+- **📊 Progress Tracking**: Real-time progress bar showing processed themes count
+- **📈 Live Statistics**: Display of created and skipped store counts during processing
+- **🌈 Color Coding**: Green for success, yellow for warnings, red for errors
+- **📋 Professional Headers**: Styled banners and boxed sections
+- **⚡ Status Messages**: Clear progress indicators with emojis and colors
+- **📦 Installation Feedback**: Enhanced installer output with better formatting
+- **🎯 Command Execution**: Improved command output with colored formatting
+- **🏁 Summary Report**: Detailed completion summary with statistics
+
+### Technical Improvements
+- Enhanced progress bar with custom formatting and live message updates
+- Improved installer output clearing for better display
+- Better error handling and user feedback
+- Real-time counter updates throughout the process
+
 ## [1.0.1] - 2025-01-08
 
 ### Fixed
