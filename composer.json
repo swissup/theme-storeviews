@@ -1,0 +1,82 @@
+{
+    "name": "swissup/module-theme-store-views",
+    "description": "Magento 2 module that automatically creates store views for each Swissup theme and applies corresponding themes with full installation",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": "OSL-3.0",
+    "keywords": [
+        "magento2",
+        "swissup",
+        "themes",
+        "store-views",
+        "automation",
+        "argento",
+        "breeze",
+        "marketplace",
+        "installer"
+    ],
+    "authors": [
+        {
+            "name": "Swissup Labs",
+            "email": "info@swissuplabs.com",
+            "homepage": "https://swissuplabs.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/swissup/theme-storeviews",
+    "support": {
+        "email": "info@swissuplabs.com",
+        "docs": "https://docs.swissuplabs.com/",
+        "issues": "https://github.com/swissup/theme-storeviews/issues",
+        "source": "https://github.com/swissup/theme-storeviews"
+    },
+    "require": {
+        "php": "^7.4|^8.0|^8.1|^8.2|^8.3",
+        "magento/framework": "^103.0",
+        "magento/module-store": "^101.0",
+        "magento/module-theme": "^101.0",
+        "magento/module-indexer": "^100.4",
+        "magento/module-config": "^101.2",
+        "magento/module-backend": "^102.0",
+        "swissup/module-marketplace": "^1.9"
+    },
+    "suggest": {
+        "swissup/theme-frontend-absolute": "Swissup Absolute theme",
+        "swissup/theme-frontend-argento-blank": "Swissup Argento Blank theme",
+        "swissup/theme-frontend-argento-essence": "Swissup Argento Essence theme",
+        "swissup/theme-frontend-argento-flat": "Swissup Argento Flat theme",
+        "swissup/theme-frontend-argento-force": "Swissup Argento Force theme",
+        "swissup/theme-frontend-argento-home": "Swissup Argento Home theme",
+        "swissup/theme-frontend-argento-luxury": "Swissup Argento Luxury theme",
+        "swissup/theme-frontend-argento-mall": "Swissup Argento Mall theme",
+        "swissup/theme-frontend-argento-marketplace": "Swissup Argento Marketplace theme",
+        "swissup/theme-frontend-argento-pure2": "Swissup Argento Pure2 theme",
+        "swissup/theme-frontend-argento-stripes": "Swissup Argento Stripes theme",
+        "swissup/theme-frontend-argentobreeze-blank": "Swissup Argento Breeze Blank theme",
+        "swissup/theme-frontend-argentobreeze-business": "Swissup Argento Breeze Business theme",
+        "swissup/theme-frontend-argentobreeze-chic": "Swissup Argento Breeze Chic theme",
+        "swissup/theme-frontend-argentobreeze-force": "Swissup Argento Breeze Force theme",
+        "swissup/theme-frontend-argentobreeze-stripes": "Swissup Argento Breeze Stripes theme",
+        "swissup/theme-frontend-breeze-blank": "Swissup Breeze Blank theme",
+        "swissup/theme-frontend-breeze-evolution": "Swissup Breeze Evolution theme"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Swissup\\ThemeStoreViews\\": ""
+        }
+    },
+    "extra": {
+        "magento-root-dir": "../../../",
+        "map": [
+            [
+                "*",
+                "Swissup/ThemeStoreViews"
+            ]
+        ]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

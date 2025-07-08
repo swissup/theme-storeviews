@@ -1,5 +1,11 @@
 # Swissup Theme Store Views
 
+[![Latest Stable Version](https://poser.pugx.org/swissup/module-theme-store-views/v/stable)](https://packagist.org/packages/swissup/module-theme-store-views)
+[![Total Downloads](https://poser.pugx.org/swissup/module-theme-store-views/downloads)](https://packagist.org/packages/swissup/module-theme-store-views)
+[![License](https://poser.pugx.org/swissup/module-theme-store-views/license)](https://packagist.org/packages/swissup/module-theme-store-views)
+[![PHP Version](https://img.shields.io/badge/php-7.4%2B%20%7C%208.x-blue)](https://packagist.org/packages/swissup/module-theme-store-views)
+[![Magento](https://img.shields.io/badge/magento-2.4.x-orange)](https://packagist.org/packages/swissup/module-theme-store-views)
+
 A Magento 2 module that automatically creates store views for each Swissup theme and applies the corresponding theme to them, including running theme-specific installers.
 
 ## 🎯 What it does
@@ -20,7 +26,29 @@ This module streamlines the process of setting up multiple Swissup themes by:
 
 ## 🚀 Installation
 
-The module is already installed in your Magento instance. If you need to reinstall:
+### Method 1: Composer (Recommended)
+
+```bash
+# Install via Composer
+composer require swissup/module-theme-store-views
+
+# Enable the module
+php bin/magento module:enable Swissup_ThemeStoreViews
+
+# Run setup upgrade
+php bin/magento setup:upgrade
+
+# Clear cache and compile
+php bin/magento cache:flush
+php bin/magento setup:di:compile
+php bin/magento setup:static-content:deploy
+```
+
+### Method 2: Manual Installation
+
+1. Download or clone this repository
+2. Copy the module to `app/code/Swissup/ThemeStoreViews/`
+3. Run the following commands:
 
 ```bash
 # Enable the module
@@ -239,7 +267,6 @@ For issues related to:
 
 ---
 
-**Author**: AI Assistant  
 **Version**: 1.0.0  
 **Compatible**: Magento 2.4.x  
 **Created**: 2025
