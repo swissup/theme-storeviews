@@ -88,6 +88,7 @@ class CreateThemeStoreViews extends Command
         'Swissup/argento-home',
         'Swissup/argento-luxury',
         'Swissup/argento-mall',
+        'Swissup/argento-chic',
         'Swissup/argento-marketplace',
         'Swissup/argento-pure2',
         'Swissup/argento-stripes',
