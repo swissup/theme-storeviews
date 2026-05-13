@@ -156,7 +156,7 @@ class CreateThemeStoreViews extends Command
     /**
      * Execute the command
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             $this->appState->setAreaCode(Area::AREA_ADMINHTML);
