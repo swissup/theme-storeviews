@@ -2,7 +2,7 @@
     "name": "swissup/module-theme-store-views",
     "description": "Magento 2 module that automatically creates store views for each Swissup theme and applies corresponding themes with full installation",
     "type": "magento2-module",
-    "version": "v1.0.3",
+    "version": "v1.0.4",
     "license": "OSL-3.0",
     "keywords": [
         "magento2",
